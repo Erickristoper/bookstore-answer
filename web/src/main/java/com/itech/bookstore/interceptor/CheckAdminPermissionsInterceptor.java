@@ -35,7 +35,7 @@ public class CheckAdminPermissionsInterceptor implements HandlerInterceptor {
             if (null != checkAdminPermissions) {
                 String user = request.getHeader("X-User");
                 logger.debug("User {} trying to access admin endpoint", user);
-                return userServiceImpl.hasPermissions(user, "apmin");
+                return userServiceImpl.hasPermissions(user, "admin");
             }
         }
         return true;
