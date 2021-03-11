@@ -8,7 +8,10 @@ public interface BookService {
 
     List<Book> getAllBooks();
 
+    List<Book> findByName(String name);
+
+    List<Book> findById(int id);
+
     Book addBook(String name, String description, String uploadedBy);
 
-    List<Book> findByName(String name);
 }

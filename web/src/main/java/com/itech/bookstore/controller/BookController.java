@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
 
 @RestController
 public class BookController {
@@ -23,8 +22,15 @@ public class BookController {
     }
 
     @GetMapping(value = "/books/search")
-    public HttpEntity<BooksResponse> findByName(@RequestParam(value = "name", required = false) String name) {
-        return ResponseEntity.ok().body(new BooksResponse(bookService.findByName(name)));
+    public HttpEntity<BooksResponse> findByName(
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "id", required = false) Integer id) {
+        if (name != null){
+            return ResponseEntity.ok().body(new BooksResponse(bookService.findByName(name)));
+        } else if (id != null) {
+            return ResponseEntity.ok().body(new BooksResponse(bookService.findById(id)));
+        }
+        return ResponseEntity.ok().body(new BooksResponse(bookService.getAllBooks()));
     }
 
     @CheckAdminPermissions

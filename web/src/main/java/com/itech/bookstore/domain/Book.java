@@ -17,6 +17,9 @@ public class Book {
     private Integer userId;
     private int uploadedById;
 
+    @Transient
+    private boolean available;
+
     public Book(){}
 
     public Book(int id, String name, String description, Integer userId, int uploadedById){
@@ -53,4 +56,8 @@ public class Book {
     public Integer getUserId() {
         return userId;
     }
+
+    public boolean isAvailable() { return available; }
+
+    public void setAvailability(boolean available) { this.available = available; }
 }

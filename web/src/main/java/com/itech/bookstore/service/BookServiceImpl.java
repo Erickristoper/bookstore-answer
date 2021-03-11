@@ -1,7 +1,6 @@
 package com.itech.bookstore.service;
 
 import com.itech.bookstore.domain.Book;
-import com.itech.bookstore.domain.User;
 import com.itech.bookstore.repository.BookRepository;
 import com.itech.bookstore.repository.UserRepository;
 import org.slf4j.Logger;
@@ -23,7 +22,23 @@ public class BookServiceImpl implements BookService {
     private UserRepository userRepository;
 
     public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+       return checkAvailability(bookRepository.findAll());
+    }
+
+    public List<Book> findByName(String name) {
+        return checkAvailability(bookRepository.findByName(name.toLowerCase()));
+    }
+
+    public List<Book> findById(int id) {
+        return checkAvailability(bookRepository.findById(id));
+    }
+
+    private List<Book> checkAvailability(List<Book> books) {
+        List<Book> modifiedBooks = books;
+        modifiedBooks
+                .stream()
+                .forEach(b -> { if(b.getUserId() == null) b.setAvailability(true); });
+        return modifiedBooks ;
     }
 
     public Book addBook(String name, String description, String uploadedBy) {
@@ -33,7 +48,4 @@ public class BookServiceImpl implements BookService {
         return bookRepository.save(b);
     }
 
-    public List<Book> findByName(String name) {
-        return bookRepository.findByName(name);
-    }
 }
